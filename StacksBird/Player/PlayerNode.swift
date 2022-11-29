@@ -29,6 +29,7 @@ class PlayerNode: SKSpriteNode {
         physicsBody.physicsBody = SKPhysicsBody(rectangleOf: physicsBody.size)
         physicsBody.physicsBody?.affectedByGravity = true
         physicsBody.name = "physicsBody"
+        physicsBody.physicsBody?.categoryBitMask = 1
         
         addChild(physicsBody)
     }

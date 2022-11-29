@@ -9,7 +9,7 @@ import SpriteKit
 import GameKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var backgroundNode: BackgroundNode?
     
@@ -53,7 +53,7 @@ class GameScene: SKScene {
     }
     
     override func sceneDidLoad() {
-        
+        self.physicsWorld.contactDelegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -64,4 +64,14 @@ class GameScene: SKScene {
         
     }
     
+    func didBegin(_ contact: SKPhysicsContact) {
+        guard let playerNode = childNode(withName: "playerNode") as? PlayerNode else { return }
+        playerNode.machineState.enter(PlayerMovingState.self)
+        print("correndo")
+        
+    }
+    
+    func didEnd(_ contact: SKPhysicsContact) {
+        print("pulando")
+    }
 }

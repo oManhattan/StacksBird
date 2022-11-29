@@ -50,6 +50,7 @@ class BackgroundNode: SKSpriteNode {
         physicsGround.position.y =  -physicsGround.frame.minY / 2
         physicsGround.physicsBody = SKPhysicsBody(rectangleOf: physicsGround.size)
         physicsGround.physicsBody?.affectedByGravity = false
+        physicsGround.physicsBody?.contactTestBitMask = 1
         
         addChild(physicsGround)
     }

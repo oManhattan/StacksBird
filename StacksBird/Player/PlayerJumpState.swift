@@ -21,15 +21,23 @@ class PlayerJumpState: GKState {
         self.node.machineState.enter(PlayerMovingState.self)
     }
     
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
+            switch stateClass {
+            case is PlayerMovingState.Type:
+                return true
+            default:
+                return false
+            }
+        }
+    
     override func didEnter(from previousState: GKState?) {
         node.removeAllActions()
         let action = SKAction.customAction(withDuration: 1/60) { node, _ in
 //            guard let node = node as? PlayerNode else { return }
             guard let player = node.childNode(withName: "physicsBody") else { return }
-            player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 7))
+            player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 5))
         }
         node.run(action)
-        node.machineState.enter(PlayerMovingState.self)
     }
     
     
