@@ -12,6 +12,9 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var backgroundNode: BackgroundNode?
+    let effectNode = SKEffectNode()
+    private var vida = 100.0
+//    let effectNode2 = SKEffectNode()
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -50,6 +53,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let button = childNode(withName: "pauseButton") else { return }
         guard let playerNode = childNode(withName: "playerNode") as? PlayerNode else { return }
         playerNode.machineState.enter(PlayerJumpState.self)
+        
+        vida -= 10
+        if vida == 0{
+             vida = 100
+        }
+        
     }
     
     override func sceneDidLoad() {
@@ -62,6 +71,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         
+        let ground: GroundNode = .init(texture: nil, color: .clear, size: CGSize(width: size.width + 10, height: 130))
+
+        let background: SKSpriteNode = .init(texture: SKTexture(image: UIImage(named: "BG")!), color: .clear, size: CGSize(width: size.width + 10, height: size.height))
+        background.name = "background2"
+        background.anchorPoint = .zero
+        background.position.x = (frame.maxX * CGFloat(0)) - 10
+        background.position.y = ground.frame.maxY - 30
+        
+        effectNode.addChild(background)
+        effectNode.zPosition = -5
+        addChild(effectNode)
+    
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -73,5 +94,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didEnd(_ contact: SKPhysicsContact) {
         print("pulando")
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        effectNode.filter = CIFilter(name: "CIColorControls")
+        effectNode.filter?.setValue(vida/100, forKey: kCIInputSaturationKey)
     }
 }

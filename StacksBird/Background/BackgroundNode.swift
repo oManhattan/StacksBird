@@ -16,6 +16,7 @@ class BackgroundNode: SKSpriteNode {
     let groundSize: CGFloat = 130
     let spacingCompensation: CGFloat = 10
     var backgroundSpeed: CGFloat = 2
+    var effectNode = SKEffectNode()
     
     init(size: CGSize) {
         
@@ -42,6 +43,7 @@ class BackgroundNode: SKSpriteNode {
             background.position.y = ground.frame.maxY - 30
             background.zPosition = -3
             addChild(background)
+            
         }
         
         let physicsGround = SKSpriteNode(texture: nil, color: .clear, size: CGSize(width: size.width - 2, height: groundSize * 0.7))
